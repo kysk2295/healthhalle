@@ -7,6 +7,7 @@ import 'package:ex0128/screen/signupScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen>{
         color: Color(0xffFF665A),
         borderRadius: BorderRadius.circular(10),
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen()));
+          Get.to(SignupScreen());
+          //Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen()));
         }
 
     );
@@ -196,8 +198,11 @@ class _LoginScreenState extends State<LoginScreen>{
       print(res.statusCode);
       print(res.body);
       print("로그인 성공");
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()));
+      //Get.to(HomeScreen());
+      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()));
 
+      //모든 페이지 스택 삭제하고 페이지 이동
+      Get.offAll(HomeScreen());
       // shared preferences 얻기
       final prefs = await SharedPreferences.getInstance();
       var array=[id,password];

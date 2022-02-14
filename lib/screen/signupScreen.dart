@@ -4,6 +4,7 @@ import 'package:ex0128/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class SignupScreen extends StatefulWidget{
@@ -108,7 +109,9 @@ class _SignupScreenState extends State<SignupScreen>{
                     _idTextEditController.text.toString().trim(),password: _passwordEditController.text.toString().trim());
 
                 createUser(user);
-                Navigator.pop(context);
+                //뒤로 가기
+                Get.back();
+                //Navigator.pop(context);
                 print("hi");
               }
             }
@@ -186,6 +189,7 @@ Future createUser(User _user) async {
 
   else {
     print("회원가입 success");
+    Get.snackbar('회원가입', '회원가입이 성공적으로 완료되었습니다!');
   }
 
 

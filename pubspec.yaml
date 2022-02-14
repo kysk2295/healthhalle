@@ -37,6 +37,8 @@ dependencies:
   flutter_screenutil: '5.1.0'
   http: ^0.13.4
   shared_preferences: ^2.0.13
+  get: ^4.6.1
+  retrofit: ^3.0.1+1
 
 
 dev_dependencies:

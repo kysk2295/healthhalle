@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ex0128/screen/calendarScreen.dart';
 import 'package:ex0128/screen/loginScreen.dart';
@@ -46,35 +48,38 @@ class _HomeScreenState extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
+    return  Scaffold(
         body: FutureBuilder(
           future: data,
           builder: (context,snapshot) {
+            if(snapshot.connectionState == ConnectionState.done
+                && snapshot.data.toString() != 'success') {
+                print(snapshot.data.toString() + "asdfasdf");
 
-            //print(snapshot.hasData.toString());
-            if (snapshot.data.toString()!='success') {
-              print(snapshot.data.toString()+"asdfasdf");
-              return LoginScreen();
+                return LoginScreen();
+
             }
 
-            return Scaffold(
-              body: pages[_selectedIndex],
-              bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
+            else {
+              return Scaffold(
+                body: pages[_selectedIndex],
+                bottomNavigationBar: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
 //        backgroundColor: Colors.white,
-                selectedItemColor: Colors.black,
-                unselectedItemColor: Color(0xffCCCCCC),
-                currentIndex: _selectedIndex,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                onTap: (int index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-                items: bottomItems,
-              ),
-            );
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Color(0xffCCCCCC),
+                  currentIndex: _selectedIndex,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  onTap: (int index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  items: bottomItems,
+                ),
+              );
+            }
           }
       )
     );
@@ -83,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen>{
   @override
   void initState() {
     data=_autoLogin();
+
   }
 }
 
@@ -91,7 +97,10 @@ Future<String> _autoLogin() async{
   var flag='fail';
 
   final prefs = await SharedPreferences.getInstance();
+  print(prefs.getStringList('info')![0]);
+
   if(prefs.getStringList('info')!.isNotEmpty){
+    print('hi');
     var res = await http.post(
       Uri.parse('http://192.168.45.52:3000/login'),
       headers: <String, String>{
